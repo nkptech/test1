@@ -9,7 +9,7 @@ x-ibm-configuration:
   properties:
     target-url:
       value: >-
-        https://api.eu-gb.apiconnect.appdomain.cloud/prashapi123gmailcom-dev/sb/customerservice/gtcustomer
+        https://api.eu-gb.apiconnect.appdomain.cloud/prashapi123gmailcom-dev/sb/customerservice/getcustomer
       description: The URL of the target service
       encoded: false
   cors:
