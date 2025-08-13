@@ -4,7 +4,7 @@ on: [pull_request, workflow_dispatch, push]
 
 env:
   API_HOST: platform-api.us-east-a.apiconnect.automation.ibm.com
-  PLATFORM_API_PREFIX: platform-api
+  PLATFORM_API_PREFIX: https://platform-api.us-east-a.apiconnect.automation.ibm.com/api
   PROVIDER_ORG: api-connect-os-0
   API_FILES: changehttpmethodinvokeapi_1.0.0.yaml
 
