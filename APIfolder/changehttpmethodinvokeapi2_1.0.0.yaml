@@ -1,0 +1,83 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: ChangeHttpMethodInvokeApi2
+  x-ibm-name: changehttpmethodinvokeapi2
+servers:
+  - url: /changehttpmethodinvokeapi2
+x-ibm-configuration:
+  properties:
+    target-url:
+      value: >-
+        https://api.eu-gb.apiconnect.appdomain.cloud/prashapi123gmailcom-dev/sb/customerservice/getcustomer
+      description: The URL of the target service
+      encoded: false
+  cors:
+    enabled: true
+  gateway: datapower-api-gateway
+  type: rest
+  phase: realized
+  enforced: true
+  testable: true
+  assembly:
+    execute:
+      - invoke:
+          title: invoke
+          version: 2.0.0
+          verb: keep
+          target-url: $(target-url)
+          follow-redirects: false
+          timeout: 60
+          parameter-control:
+            type: allowlist
+            values: []
+          header-control:
+            type: blocklist
+            values: []
+          inject-proxy-headers: true
+          persistent-connection: true
+      - invoke:
+          version: 2.2.0
+          title: invoke
+          backend-type: detect
+          header-control:
+            type: blocklist
+            values: []
+          parameter-control:
+            type: allowlist
+            values: []
+          http-version: HTTP/1.1
+          timeout: 60
+          verb: POST
+          chunked-uploads: true
+          persistent-connection: true
+          cache-response: protocol
+          cache-ttl: 900
+          stop-on-error: []
+          graphql-send-type: detect
+          websocket-upgrade: false
+          target-url: >-
+            https://api.eu-gb.apiconnect.appdomain.cloud/prashapi123gmailcom-dev/sb/targetendpoint1/convert2xml
+    catch: []
+    finally: []
+  activity-log:
+    enabled: true
+    success-content: activity
+    error-content: payload
+paths:
+  /getCustomerDetailsXml:
+    get:
+      responses:
+        '200':
+          description: success
+          content:
+            application/xml:
+              schema:
+                title: Customer
+                type: object
+      parameters:
+        - name: Id
+          in: header
+          schema:
+            title: Id
+            type: integer
