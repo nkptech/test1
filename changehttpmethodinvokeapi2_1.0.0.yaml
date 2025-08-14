@@ -1,10 +1,10 @@
 openapi: 3.0.0
 info:
   version: 1.0.0
-  title: ChangeHTTPMethodInvokeApi
-  x-ibm-name: changehttpmethodinvokeapi
+  title: ChangeHttpMethodInvokeApi2
+  x-ibm-name: changehttpmethodinvokeapi2
 servers:
-  - url: /changehttpmethodinvokeapi
+  - url: /changehttpmethodinvokeapi2
 x-ibm-configuration:
   properties:
     target-url:
@@ -36,6 +36,28 @@ x-ibm-configuration:
             values: []
           inject-proxy-headers: true
           persistent-connection: true
+      - invoke:
+          version: 2.2.0
+          title: invoke
+          backend-type: detect
+          header-control:
+            type: blocklist
+            values: []
+          parameter-control:
+            type: allowlist
+            values: []
+          http-version: HTTP/1.1
+          timeout: 60
+          verb: POST
+          chunked-uploads: true
+          persistent-connection: true
+          cache-response: protocol
+          cache-ttl: 900
+          stop-on-error: []
+          graphql-send-type: detect
+          websocket-upgrade: false
+          target-url: >-
+            https://api.eu-gb.apiconnect.appdomain.cloud/prashapi123gmailcom-dev/sb/targetendpoint1/convert2xml
     catch: []
     finally: []
   activity-log:
@@ -43,13 +65,13 @@ x-ibm-configuration:
     success-content: activity
     error-content: payload
 paths:
-  /getCustomerDetails:
+  /getCustomerDetailsXml:
     get:
       responses:
         '200':
           description: success
           content:
-            application/json:
+            application/xml:
               schema:
                 title: Customer
                 type: object
