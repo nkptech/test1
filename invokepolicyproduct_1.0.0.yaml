@@ -1,6 +1,6 @@
 info:
   version: 1.0.0
-  title: InvokePolicyProduct
+  title: InvokePolicyProduc
   name: invokepolicyproduct
 gateways:
   - datapower-api-gateway
