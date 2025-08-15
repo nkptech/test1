@@ -1,6 +1,6 @@
 info:
   version: 1.0.0
-  title: InvokePolicyProduc
+  title: InvokePolicyProduct
   name: invokepolicyproduct
 gateways:
   - datapower-api-gateway
@@ -16,8 +16,6 @@ plans:
       changehttpmethodinvokeapi1.0.0: {}
       changehttpmethodinvokeapi21.0.0: {}
 apis:
-  basicauthinvokeapi1.0.0:
-    $ref: basicauthinvokeapi_1.0.0.yaml
   changehttpmethodinvokeapi1.0.0:
     $ref: changehttpmethodinvokeapi_1.0.0.yaml
   changehttpmethodinvokeapi21.0.0:
