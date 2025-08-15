@@ -43,7 +43,7 @@ jobs:
     - name: Debug Difference
       run: |
         echo "Changed files: ${{ steps.difference-output.outputs.action_updates }}"
-    - uses: ibm-apiconnect/apic-discovery-action@v1.0.0 # Replace with specific version if available
+    - uses: ibm-apiconnect/apic-discovery-action@main
       id: discover-apis
       with:
         api_host: ${{ env.API_HOST }}
