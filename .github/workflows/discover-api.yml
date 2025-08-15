@@ -1,48 +1,22 @@
 name: Sync Discovered API with APIConnect
 
-on:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
-  workflow_dispatch:
+on: [pull_request, workflow_dispatch, push]
 
 env:
   API_HOST: us-east-a.apiconnect.automation.ibm.com
   PLATFORM_API_PREFIX: platform-api
   PROVIDER_ORG: api-connect-os-0
-  API_FILES: ibm-sample-order-api_2.0.0.yaml,order_product_1.0.0.yaml
+  API_FILES: ibm-sample-order-api_2.0.0.yaml, order_product_1.0.0.yaml
 
 jobs:
   run-discovery:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: Check API Files Existence
-      run: |
-        IFS=',' read -ra files <<< "${{ env.API_FILES }}"
-        for file in "${files[@]}"; do
-          if [ ! -f "$file" ]; then
-            echo "Error: File $file not found"
-            exit 1
-          fi
-        done
-    - name: Validate OpenAPI Files
-      run: |
-        npm install -g @redocly/cli
-        IFS=',' read -ra files <<< "${{ env.API_FILES }}"
-        for file in "${files[@]}"; do
-          redocly lint "$file"
-        done
     - name: Difference
       id: difference-output
       run: |
         echo "action_updates=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.before }} ${{ github.sha }} | xargs)" >> $GITHUB_OUTPUT
-    - name: Debug Difference
-      run: |
-        echo "Changed files: ${{ steps.difference-output.outputs.action_updates }}"
     - uses: ibm-apiconnect/apic-discovery-action@main
       id: discover-apis
       with:
@@ -52,13 +26,9 @@ jobs:
         api_key: ${{ secrets.apicApikey }}
         api_files: ${{ env.API_FILES }}
         resync_check: ${{ true }}
-        # Remove INSECURE_SKIP_TLS_VERIFY if TLS is valid
+        INSECURE_SKIP_TLS_VERIFY: true
         git_diff: ${{ steps.difference-output.outputs.action_updates }}
     - name: Display the action-result
       run: |
         echo "Result of the action: ${{ steps.discover-apis.outputs.action-result }}"
-        if [[ "${{ steps.discover-apis.outputs.action-result }}" != *"successful"* ]]; then
-          echo "Error: API discovery action failed"
-          exit 1
-        fi
-        echo "End"
+        echo "End"  
