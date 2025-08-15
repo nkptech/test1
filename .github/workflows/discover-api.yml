@@ -28,6 +28,12 @@ jobs:
         resync_check: ${{ true }}
         INSECURE_SKIP_TLS_VERIFY: true
         git_diff: ${{ steps.difference-output.outputs.action_updates }}
+    - name: Validate OpenAPI Files
+      run: |
+        npm install -g swagger-cli
+        for file in ${{ env.API_FILES }}; do
+        swagger-cli validate $file
+        done
     - name: Display the action-result
       run: |
         echo "Result of the action: ${{ steps.discover-apis.outputs.action-result }}"
